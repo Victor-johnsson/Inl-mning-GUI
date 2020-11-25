@@ -1,5 +1,6 @@
 package sample;
 
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_SRC_OUTPeer;
 import javafx.event.*;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
@@ -92,7 +93,28 @@ public class Controller {
 		}catch (Exception e1){
 			System.out.println("Error: " + e1);
 		}
+
+		}
+	public void removePerson(ActionEvent event){
+		String pNbr = pNbr_textField.getText();
+		try{
+			if(pNbr.isEmpty()){
+				mainTxtArea.setText("pNbr is empty!");
+			}else if(personRegister.findPerson(pNbr)==null){
+				mainTxtArea.setText("Could not find person with pNbr: " + pNbr);
+			}else{
+				String tmpName= personRegister.findPerson(pNbr).getName();
+				for (Account a:personRegister.findPerson(pNbr).getAccounts().values()) {
+					allAccount.remove(a.getAccountNbr(),a);
+				}
+				personRegister.removePerson(pNbr);
+				System.out.println(tmpName + " was removed with it's accounts!");
+			}
+		}catch (Exception e1){
+			System.out.println("Error: " + e1);
+		}
 	}
+
 
 
 
