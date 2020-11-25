@@ -24,5 +24,6 @@ public class Main extends Application {
         System.out.println("Victor");
         System.out.println("Jakob");
         System.out.println("Emma");
+        System.out.println("Malin");
     }
 }
