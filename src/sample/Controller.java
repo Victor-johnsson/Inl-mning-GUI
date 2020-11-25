@@ -40,6 +40,20 @@ public class Controller {
 			System.out.println("Error: " + e1);
 		}
 	}
+	public void findPerson(ActionEvent event){
+		String pNbr = pNbr_textField.getText();
+		try{
+			if(pNbr.isEmpty()){
+				System.out.println("pNbr is empty!");
+			}else if(personRegister.findPerson(pNbr) == null){
+				System.out.println("Person doesnt exist!");
+			}else{
+				System.out.println(personRegister.findPerson(pNbr).getName());
+			}
+		}catch (Exception e1){
+			System.out.println("Error: " + e1);
+		}
+	}
 
 
 
