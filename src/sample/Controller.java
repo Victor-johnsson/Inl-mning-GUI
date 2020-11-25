@@ -2,16 +2,19 @@ package sample;
 
 import javafx.event.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 
-import javafx.scene.*;
-
+import java.io.IOException;
 import java.util.HashMap;
 
 public class Controller {
-
 	private PersonRegister personRegister = new PersonRegister();
 	@FXML private TextField pNbr_textField;
 	@FXML private TextField name_textField;
@@ -24,6 +27,20 @@ public class Controller {
 		HashMap<String, Account> allAccounts = new HashMap<>();
 		this.allAccount=allAccounts;
 	}
+
+	public  void openNewSceneButton(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader = new
+				FXMLLoader(getClass().getResource("Scene2.fxml"));
+		Parent root1 = fxmlLoader.load();
+		Stage stage = new Stage();
+
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.setTitle("Scene2");
+		stage.setScene(new Scene(root1));
+		stage.setResizable(true);
+		stage.show();
+	}
+
 
 	public void addPerson(ActionEvent event){
 		String name = name_textField.getText();
