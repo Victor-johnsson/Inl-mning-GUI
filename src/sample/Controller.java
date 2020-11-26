@@ -10,7 +10,8 @@ import java.util.HashMap;
 import static java.lang.StrictMath.abs;
 
 public class Controller {
-	private PersonRegister personRegister = new PersonRegister();
+	private final PersonRegister personRegister = new PersonRegister();
+	private final HashMap<String,Account> allAccount;
 	@FXML private TextField pNbr_textField;
 	@FXML private TextField name_textField;
 	@FXML private TextField accountNbr_textField;
@@ -18,13 +19,11 @@ public class Controller {
 	@FXML private RadioButton creditRadioBtn;
 	@FXML private RadioButton withdrawRadioBtn;
 	@FXML private TextField amount_textField;
-	private HashMap<String,Account> allAccount;
 
 	public Controller(){
 		HashMap<String, Person> register = new HashMap<>();
 		personRegister.setPersonHashMap(register);
-		HashMap<String, Account> allAccounts = new HashMap<>();
-		this.allAccount=allAccounts;
+		this.allAccount= new HashMap<>();
 	}
 
 	public void addPerson(ActionEvent event){
@@ -102,7 +101,7 @@ public class Controller {
 		}
 	}
 
-	public void showAllAccounts(ActionEvent event){
+	public void showButton(ActionEvent event){
 		String pNbr = pNbr_textField.getText();
 		try{
 			if(pNbr.isEmpty()){
