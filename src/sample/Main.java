@@ -17,11 +17,7 @@ public class Main extends Application {
         primaryStage.setTitle("Register");
         primaryStage.setScene(new Scene(root, 700, 380));
         primaryStage.show();
-
-
     }
-
-
     public static void main(String[] args) {
         launch(args);
     }
