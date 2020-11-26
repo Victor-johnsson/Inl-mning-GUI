@@ -38,9 +38,9 @@ public class Controller {
 		String pNbr = pNbr_textField.getText();
 		try{
 			if(pNbr.isEmpty() && name.isEmpty()){
-				mainTxtArea.setText("Name and pnbr is empty!");
+				mainTxtArea.setText("Name and Personal ID is empty!");
 			}else if(pNbr.isEmpty()) {
-				mainTxtArea.setText("pNbr is empty");
+				mainTxtArea.setText("Personal ID is empty");
 			}else if(name.isEmpty()) {
 				mainTxtArea.setText("Name is empty!");
 			}else if(personRegister.findPerson(pNbr)!= null){
@@ -56,29 +56,15 @@ public class Controller {
 			System.out.println("Error: " + e1);
 		}
 	}
-	public void findPerson(ActionEvent event){
-		String pNbr = pNbr_textField.getText();
-		try{
-			if(pNbr.isEmpty()){
-				mainTxtArea.setText("pNbr is empty!");
-			}else if(personRegister.findPerson(pNbr) == null){
-				mainTxtArea.setText("Person doesnt exist!");
-			}else{
-				mainTxtArea.setText(personRegister.findPerson(pNbr).getName());
-			}
-		}catch (Exception e1){
-			System.out.println("Error: " + e1);
-		}
-	}
 	public void addAccount(ActionEvent event){
 		String pNbr = pNbr_textField.getText();
 		String accountNbr = accountNbr_textField.getText();
 
 		try{
 			if(pNbr.isEmpty() && accountNbr.isEmpty()){
-				mainTxtArea.setText("pNbr & name is empty!");
+				mainTxtArea.setText("Personal ID & Name is empty!");
 			}else if(pNbr.isEmpty()){
-					mainTxtArea.setText("pNbr is empty");
+					mainTxtArea.setText("Personal ID is empty");
 			}else if(accountNbr.isEmpty()){
 				mainTxtArea.setText("AccountNbr is empty!");
 			}else if(personRegister.findPerson(pNbr)==null){
@@ -94,8 +80,8 @@ public class Controller {
 				tmpAccount.setOwner(personRegister.findPerson(pNbr));
 				personRegister.findPerson(pNbr).addAccount(tmpAccount);
 				allAccount.put(tmpAccount.getAccountNbr(),tmpAccount);
-				mainTxtArea.setText(personRegister.findAccount(pNbr,accountNbr).getAccountNbr() +
-						"--->" + personRegister.findAccount(pNbr,accountNbr).getOwner().getName() + " was added!");
+				mainTxtArea.setText("Account: " + "'" +personRegister.findAccount(pNbr,accountNbr).getAccountNbr() + "'"+
+						" was added to: " + personRegister.findAccount(pNbr,accountNbr).getOwner().getName() + "'s accounts!");
 			}
 		}catch (Exception e1){
 			System.out.println("Error: " + e1);
@@ -103,58 +89,92 @@ public class Controller {
 	}
 
 	@FXML private TextField amount_textField;
-	public void creditOrWithdraw(ActionEvent event){
+	public void creditOrWithdraw(ActionEvent event) {
 		String accountNbr = accountNbr_textField.getText();
 		String personalNbr = pNbr_textField.getText();
-		if(creditRadioBtn.isSelected()){
+		if (creditRadioBtn.isSelected()) {
 			double amount = abs(Double.valueOf(amount_textField.getText()));
-			try{
-				if(accountNbr.isEmpty()){
+			try {
+				if (accountNbr.isEmpty()) {
 					mainTxtArea.setText("Account number is empty! ");
-				}else if(personalNbr.isEmpty()) {
+				} else if (personalNbr.isEmpty()) {
 					mainTxtArea.setText("Personal ID is empty! ");
-				}else if ( amount_textField.getText().isEmpty()){
+				} else if (amount_textField.getText().isEmpty()) {
 					mainTxtArea.setText("Amount is empty!");
-				}else if(amount == 0){
+				} else if (amount == 0) {
 					mainTxtArea.setText("Amount was equal to zero, nothing was done");
-				}else if(personRegister.findPerson(personalNbr)==null){
+				} else if (personRegister.findPerson(personalNbr) == null) {
 					mainTxtArea.setText("Person doesn't exist in register");
-				}else if(personRegister.findAccount(personalNbr,accountNbr)==null){
+				} else if (personRegister.findAccount(personalNbr, accountNbr) == null) {
 					mainTxtArea.setText("This account doesn't exist on this person!");
-				}else {
-					personRegister.findAccount(personalNbr,accountNbr).credit(amount);
-					System.out.println(personRegister.findAccount(personalNbr,accountNbr).getBalance());
+				} else {
+					personRegister.findAccount(personalNbr, accountNbr).credit(amount);
+					System.out.println(personRegister.findAccount(personalNbr, accountNbr).getBalance());
 				}
-			}catch (Exception e1){
+			} catch (Exception e1) {
 				System.out.println("Error: " + e1);
 			}
-		}else if(withdrawRadioBtn.isSelected()){
+		} else if (withdrawRadioBtn.isSelected()) {
 			double amount = abs(Double.valueOf(amount_textField.getText()));
-			try{
-				if(accountNbr.isEmpty()){
+			try {
+				if (accountNbr.isEmpty()) {
 					mainTxtArea.setText("Account number is empty! ");
-				}else if(personalNbr.isEmpty()) {
+				} else if (personalNbr.isEmpty()) {
 					mainTxtArea.setText("Personal ID is empty! ");
-				}else if ( amount_textField.getText().isEmpty()){
+				} else if (amount_textField.getText().isEmpty()) {
 					mainTxtArea.setText("Amount is empty!");
-				}else if(amount == 0){
+				} else if (amount == 0) {
 					mainTxtArea.setText("Amount was equal to zero, nothing was done");
-				}else if(personRegister.findPerson(personalNbr)==null){
+				} else if (personRegister.findPerson(personalNbr) == null) {
 					mainTxtArea.setText("Person doesn't exist in register");
-				}else if(personRegister.findAccount(personalNbr,accountNbr)==null){
+				} else if (personRegister.findAccount(personalNbr, accountNbr) == null) {
 					mainTxtArea.setText("This account doesn't exist on this person!");
-				}else {
-					personRegister.findAccount(personalNbr,accountNbr).withdraw(amount);
-					System.out.println(personRegister.findAccount(personalNbr,accountNbr).getBalance());
+				} else {
+					personRegister.findAccount(personalNbr, accountNbr).withdraw(amount);
+					System.out.println(personRegister.findAccount(personalNbr, accountNbr).getBalance());
 				}
-			}catch (Exception e1){
+			} catch (Exception e1) {
 				System.out.println("Error: " + e1);
 			}
 		}
-
 	}
 
-
-
-
+	public void showAllAccounts(ActionEvent event){
+		String pNbr = pNbr_textField.getText();
+		try{
+			if(pNbr.isEmpty()){
+				mainTxtArea.setText("Personal ID is empty!");
+			}else if(personRegister.findPerson(pNbr) == null){
+				mainTxtArea.setText("Person doesnt exist!");
+			}else{
+				String personName = personRegister.findPerson(pNbr).getName();
+				String allAccount ="";
+				for (Account tmpAccount : personRegister.findPerson(pNbr).getAccounts().values()) {
+					allAccount += "Account: " + tmpAccount.getAccountNbr() + " has balance: " + tmpAccount.getBalance() + "\n";
+				}
+				mainTxtArea.setText(personName + "'s accounts: " + "\n" + allAccount + "Total balance: " + personRegister.findPerson(pNbr).totBalance());
+			}
+		}catch (Exception e1){
+			System.out.println("Error: " + e1);
+		}
+	}
+	public void removePerson(ActionEvent event) {
+		String pNbr = pNbr_textField.getText();
+		try {
+			if (pNbr.isEmpty()) {
+				mainTxtArea.setText("Personal ID is empty!");
+			} else if (personRegister.findPerson(pNbr) == null) {
+				mainTxtArea.setText("Person doesnt exist!");
+			} else {
+				Person tmp = personRegister.findPerson(pNbr);
+				for (Account a:tmp.getAccounts().values()) {
+					allAccount.remove(a.getAccountNbr(), a);
+				}
+				personRegister.removePerson(pNbr);
+				mainTxtArea.setText(tmp.getName() + " was removed!");
+			}
+		} catch (Exception e1) {
+			System.out.println("Error: " + e1);
+		}
+	}
 }
