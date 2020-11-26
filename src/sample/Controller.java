@@ -18,6 +18,7 @@ public class Controller {
 	@FXML private RadioButton creditRadioBtn;
 	@FXML private RadioButton withdrawRadioBtn;
 	private HashMap<String,Account> allAccount;
+
 	public Controller(){
 		HashMap<String, Person> register = new HashMap<>();
 		personRegister.setPersonHashMap(register);
@@ -61,12 +62,9 @@ public class Controller {
 				mainTxtArea.setText("AccountNbr is empty!");
 			}else if(personRegister.findPerson(pNbr)==null){
 				mainTxtArea.setText("Person doesnt exist!");
-			}else if(personRegister.findAccount(pNbr,accountNbr)!= null){
-				mainTxtArea.setText("Person already own this account!");
 			}else if(allAccount.containsKey(accountNbr)){
 				mainTxtArea.setText("Account already exists!");
 			}else{
-				System.out.println("Worked");
 				Account tmpAccount = new Account();
 				tmpAccount.setAccountNbr(accountNbr);
 				tmpAccount.setOwner(personRegister.findPerson(pNbr));
