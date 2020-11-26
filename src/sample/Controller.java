@@ -1,23 +1,30 @@
 package sample;
-
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_SRC_OUTPeer;
 import javafx.event.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 
-import javafx.scene.*;
-
+import java.io.IOException;
 import java.util.HashMap;
 
-public class Controller {
+import static java.lang.StrictMath.abs;
 
+public class Controller {
 	private PersonRegister personRegister = new PersonRegister();
 	@FXML private TextField pNbr_textField;
 	@FXML private TextField name_textField;
 	@FXML private TextField accountNbr_textField;
 	@FXML private TextArea mainTxtArea;
+	@FXML private RadioButton creditRadioBtn;
+	@FXML private RadioButton withdrawRadioBtn;
 	private HashMap<String,Account> allAccount;
 	public Controller(){
 		HashMap<String, Person> register = new HashMap<>();
@@ -25,6 +32,20 @@ public class Controller {
 		HashMap<String, Account> allAccounts = new HashMap<>();
 		this.allAccount=allAccounts;
 	}
+
+	public  void openNewSceneButton(ActionEvent event) throws IOException {
+		FXMLLoader fxmlLoader = new
+				FXMLLoader(getClass().getResource("Scene2.fxml"));
+		Parent root1 = fxmlLoader.load();
+		Stage stage = new Stage();
+
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.setTitle("Scene2");
+		stage.setScene(new Scene(root1));
+		stage.setResizable(true);
+		stage.show();
+	}
+
 
 	public void addPerson(ActionEvent event){
 		String name = name_textField.getText();
@@ -93,25 +114,36 @@ public class Controller {
 		}catch (Exception e1){
 			System.out.println("Error: " + e1);
 		}
-
-		}
-	public void removePerson(ActionEvent event){
-		String pNbr = pNbr_textField.getText();
-		try{
-			if(pNbr.isEmpty()){
-				mainTxtArea.setText("pNbr is empty!");
-			}else if(personRegister.findPerson(pNbr)==null){
-				mainTxtArea.setText("Could not find person with pNbr: " + pNbr);
-			}else{
-				String tmpName= personRegister.findPerson(pNbr).getName();
-				for (Account a:personRegister.findPerson(pNbr).getAccounts().values()) {
-					allAccount.remove(a.getAccountNbr(),a);
+	}
+	@FXML private TextArea mainTxtArea2;
+	@FXML private TextField accountNbr_textField2;
+	@FXML private TextField pNbr_textField2;
+	@FXML private TextField amount_textField;
+	public void creditOrWithdraw(ActionEvent event){
+		String accountNbr = accountNbr_textField2.getText();
+		String personalNbr = pNbr_textField2.getText();
+		if(creditRadioBtn.isSelected()){
+			double amount = abs(Double.valueOf(amount_textField.getText()));
+			try{
+				if(accountNbr.isEmpty()){
+					mainTxtArea2.setText("Account number is empty! ");
+				}else if(personalNbr.isEmpty()) {
+					mainTxtArea2.setText("Personal ID is empty! ");
+				}else if ( amount_textField.getText().isEmpty()){
+					mainTxtArea2.setText("Amount is empty!");
+				}else if(amount == 0){
+					mainTxtArea2.setText("Amount was equal to zero, nothing was done");
+				}else if(personRegister.findPerson(personalNbr)==null){
+					mainTxtArea2.setText("Person doesn't exist in register");
+				}else if(personRegister.findAccount(personalNbr,accountNbr)==null){
+					mainTxtArea2.setText("This account doesn't exist on this person!");
+				}else {
+					personRegister.findAccount(personalNbr,accountNbr).credit(amount);
+					System.out.println(personRegister.findAccount(personalNbr,accountNbr).getBalance());
 				}
-				personRegister.removePerson(pNbr);
-				System.out.println(tmpName + " was removed with it's accounts!");
+			}catch (Exception e1){
+				System.out.println("Error: " + e1);
 			}
-		}catch (Exception e1){
-			System.out.println("Error: " + e1);
 		}
 	}
 
