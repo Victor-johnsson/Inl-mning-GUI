@@ -29,11 +29,15 @@ public class Controller {
 	public void addPerson(ActionEvent event){
 		String name = name_textField.getText();
 		String pNbr = pNbr_textField.getText();
+		/* Testar så att inga nödvändiga fält är tomma.
+		  Ifall de är tomma kommer metoden att avbrytas och skriva ut ett meddelande som användaren kan se!
+		  Ifall allt gått rätt till skapas en ny person som läggs till i ett PersonRegister!
+		 */
 		try{
 			if(pNbr.isEmpty() || name.isEmpty()){
 				mainTxtArea.setText("Name or Personal ID is empty!");
 			}else if(personRegister.findPerson(pNbr)!= null){
-					mainTxtArea.setText("There already exist a person with this pNbr!");
+					mainTxtArea.setText("There already exist a person with this personal ID!");
 			}else{
 				Person tmpPerson = new Person();
 				tmpPerson.setName(name);
@@ -45,15 +49,22 @@ public class Controller {
 			System.out.println("Error: " + e1);
 		}
 	}
+
 	public void addAccount(ActionEvent event){
 		String pNbr = pNbr_textField.getText();
 		String accountNbr = accountNbr_textField.getText();
+		/* Testar så att inga nödvändiga fält är tomma.
+		  Ifall de är tomma kommer metoden att avbrytas och skriva ut ett meddelande som användaren kan se!
+		  Ifall allt gått rätt till skapas ett nytt konto som får en ägare, som läggs in i personens lista av konton,
+		  samt läggs in i en lista över alla konton som finns för att inte kunna skapa dubbletter av konton.
 
+		  Även om detta skulle kunna vara lugnt då ett konto endast går att komma åt från en person tolkade vi det som att ett konto endast kan tillhöra en person!
+		 */
 		try{
 			if(pNbr.isEmpty() || accountNbr.isEmpty()){
 				mainTxtArea.setText("Personal ID or Account Number is empty!");
 			}else if(personRegister.findPerson(pNbr)==null){
-				mainTxtArea.setText("Person doesn't exist!");
+				mainTxtArea.setText("Could not find a person with this personal ID!");
 			}else if(allAccount.containsKey(accountNbr)){
 				mainTxtArea.setText("Account already exists!");
 			}else{
@@ -82,7 +93,7 @@ public class Controller {
 			if (accountNbr.isEmpty() || personalNbr.isEmpty() || amount_textField.getText().isEmpty() ) {
 				mainTxtArea.setText("One of the required fields is empty!");
 			} else if (personRegister.findPerson(personalNbr) == null) {
-				mainTxtArea.setText("Person doesn't exist in register");
+				mainTxtArea.setText("Could not find a person with this personal ID!");
 			} else if (personRegister.findAccount(personalNbr, accountNbr) == null) {
 				mainTxtArea.setText("Person doesn't own an account with this number!");
 			} else if(creditRadioBtn.isSelected()){
@@ -107,7 +118,7 @@ public class Controller {
 			if(pNbr.isEmpty()){
 				mainTxtArea.setText("Personal ID is empty!");
 			}else if(personRegister.findPerson(pNbr) == null){
-				mainTxtArea.setText("Could not find person with this personal ID!");
+				mainTxtArea.setText("Could not find a person with this personal ID!");
 			}else{
 				String personName = personRegister.findPerson(pNbr).getName();
 				String allAccount ="";
@@ -126,7 +137,7 @@ public class Controller {
 			if (pNbr.isEmpty()) {
 				mainTxtArea.setText("Personal ID is empty!");
 			} else if (personRegister.findPerson(pNbr) == null) {
-				mainTxtArea.setText("Could not find person with this personal ID!");
+				mainTxtArea.setText("Could not find a person with this personal ID!");
 			} else {
 				Person tmp = personRegister.findPerson(pNbr);
 				for (Account a:tmp.getAccounts().values()) {
