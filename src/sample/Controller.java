@@ -108,7 +108,7 @@ public class Controller {
 			if(pNbr.isEmpty()){
 				mainTxtArea.setText("Personal ID is empty!");
 			}else if(personRegister.findPerson(pNbr) == null){
-				mainTxtArea.setText("Person doesnt exist!");
+				mainTxtArea.setText("Could not find person with this personal ID!");
 			}else{
 				String personName = personRegister.findPerson(pNbr).getName();
 				String allAccount ="";
