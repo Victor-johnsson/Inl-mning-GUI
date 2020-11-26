@@ -17,6 +17,7 @@ public class Controller {
 	@FXML private TextArea mainTxtArea;
 	@FXML private RadioButton creditRadioBtn;
 	@FXML private RadioButton withdrawRadioBtn;
+	@FXML private TextField amount_textField;
 	private HashMap<String,Account> allAccount;
 
 	public Controller(){
@@ -30,12 +31,8 @@ public class Controller {
 		String name = name_textField.getText();
 		String pNbr = pNbr_textField.getText();
 		try{
-			if(pNbr.isEmpty() && name.isEmpty()){
-				mainTxtArea.setText("Name and Personal ID is empty!");
-			}else if(pNbr.isEmpty()) {
-				mainTxtArea.setText("Personal ID is empty");
-			}else if(name.isEmpty()) {
-				mainTxtArea.setText("Name is empty!");
+			if(pNbr.isEmpty() || name.isEmpty()){
+				mainTxtArea.setText("Name or Personal ID is empty!");
 			}else if(personRegister.findPerson(pNbr)!= null){
 					mainTxtArea.setText("There already exist a person with this pNbr!");
 			}else{
@@ -54,14 +51,10 @@ public class Controller {
 		String accountNbr = accountNbr_textField.getText();
 
 		try{
-			if(pNbr.isEmpty() && accountNbr.isEmpty()){
-				mainTxtArea.setText("Personal ID & Name is empty!");
-			}else if(pNbr.isEmpty()){
-					mainTxtArea.setText("Personal ID is empty");
-			}else if(accountNbr.isEmpty()){
-				mainTxtArea.setText("AccountNbr is empty!");
+			if(pNbr.isEmpty() || accountNbr.isEmpty()){
+				mainTxtArea.setText("Personal ID or Account Number is empty!");
 			}else if(personRegister.findPerson(pNbr)==null){
-				mainTxtArea.setText("Person doesnt exist!");
+				mainTxtArea.setText("Person doesn't exist!");
 			}else if(allAccount.containsKey(accountNbr)){
 				mainTxtArea.setText("Account already exists!");
 			}else{
@@ -78,54 +71,34 @@ public class Controller {
 		}
 	}
 
-	@FXML private TextField amount_textField;
+
 	public void creditOrWithdraw(ActionEvent event) {
 		String accountNbr = accountNbr_textField.getText();
 		String personalNbr = pNbr_textField.getText();
-		if (creditRadioBtn.isSelected()) {
-			double amount = abs(Double.valueOf(amount_textField.getText()));
-			try {
-				if (accountNbr.isEmpty()) {
-					mainTxtArea.setText("Account number is empty! ");
-				} else if (personalNbr.isEmpty()) {
-					mainTxtArea.setText("Personal ID is empty! ");
-				} else if (amount_textField.getText().isEmpty()) {
-					mainTxtArea.setText("Amount is empty!");
-				} else if (amount == 0) {
-					mainTxtArea.setText("Amount was equal to zero, nothing was done");
-				} else if (personRegister.findPerson(personalNbr) == null) {
-					mainTxtArea.setText("Person doesn't exist in register");
-				} else if (personRegister.findAccount(personalNbr, accountNbr) == null) {
-					mainTxtArea.setText("This account doesn't exist on this person!");
-				} else {
-					personRegister.findAccount(personalNbr, accountNbr).credit(amount);
-					System.out.println(personRegister.findAccount(personalNbr, accountNbr).getBalance());
-				}
-			} catch (Exception e1) {
-				System.out.println("Error: " + e1);
+		double amount = 0;
+		if(!(amount_textField.getText().isEmpty())){
+			amount = abs(Double.valueOf(amount_textField.getText()));
+		}
+		try {
+			if (accountNbr.isEmpty() || personalNbr.isEmpty() || amount_textField.getText().isEmpty() ) {
+				mainTxtArea.setText("One of the required fields is empty!");
+			} else if (personRegister.findPerson(personalNbr) == null) {
+				mainTxtArea.setText("Person doesn't exist in register");
+			} else if (personRegister.findAccount(personalNbr, accountNbr) == null) {
+				mainTxtArea.setText("Person doesn't own an account with this number!");
+			} else if(creditRadioBtn.isSelected()){
+				personRegister.findAccount(personalNbr, accountNbr).credit(amount);
+				mainTxtArea.setText("Credited " + amount + " to account '"
+						+ personRegister.findAccount(personalNbr,accountNbr).getAccountNbr() + "'" + "\n"+
+						"New balance is: " + personRegister.findAccount(personalNbr, accountNbr).getBalance());
+			}else if(withdrawRadioBtn.isSelected()) {
+				personRegister.findAccount(personalNbr, accountNbr).withdraw(amount);
+				mainTxtArea.setText("Withdrew " + amount + " from account '"
+						+ personRegister.findAccount(personalNbr, accountNbr).getAccountNbr() + "'" + "\n"+
+						"New balance is: " + personRegister.findAccount(personalNbr, accountNbr).getBalance());
 			}
-		} else if (withdrawRadioBtn.isSelected()) {
-			double amount = abs(Double.valueOf(amount_textField.getText()));
-			try {
-				if (accountNbr.isEmpty()) {
-					mainTxtArea.setText("Account number is empty! ");
-				} else if (personalNbr.isEmpty()) {
-					mainTxtArea.setText("Personal ID is empty! ");
-				} else if (amount_textField.getText().isEmpty()) {
-					mainTxtArea.setText("Amount is empty!");
-				} else if (amount == 0) {
-					mainTxtArea.setText("Amount was equal to zero, nothing was done");
-				} else if (personRegister.findPerson(personalNbr) == null) {
-					mainTxtArea.setText("Person doesn't exist in register");
-				} else if (personRegister.findAccount(personalNbr, accountNbr) == null) {
-					mainTxtArea.setText("This account doesn't exist on this person!");
-				} else {
-					personRegister.findAccount(personalNbr, accountNbr).withdraw(amount);
-					System.out.println(personRegister.findAccount(personalNbr, accountNbr).getBalance());
-				}
-			} catch (Exception e1) {
-				System.out.println("Error: " + e1);
-			}
+		} catch (Exception e1) {
+			System.out.println("Error: " + e1);
 		}
 	}
 
@@ -154,7 +127,7 @@ public class Controller {
 			if (pNbr.isEmpty()) {
 				mainTxtArea.setText("Personal ID is empty!");
 			} else if (personRegister.findPerson(pNbr) == null) {
-				mainTxtArea.setText("Person doesnt exist!");
+				mainTxtArea.setText("Could not find person with this personal ID!");
 			} else {
 				Person tmp = personRegister.findPerson(pNbr);
 				for (Account a:tmp.getAccounts().values()) {
