@@ -45,7 +45,7 @@ public class Main extends Application {
                 window.setY(mouseEvent.getScreenY() + yOffset);
             }
         });
-        window.setScene(new Scene(root, 700, 380));
+        window.setScene(new Scene(root, 727, 378));
 
         window.show();
     }
