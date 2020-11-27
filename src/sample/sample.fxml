@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="207.0" minWidth="689.0" prefHeight="358.0" prefWidth="707.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane minHeight="207.0" minWidth="689.0" prefHeight="358.0" prefWidth="707.0" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <SplitPane dividerPositions="0.44574780058651026" layoutX="10.0" layoutY="10.0" orientation="VERTICAL" prefHeight="480.0" prefWidth="831.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
         <items>
@@ -25,6 +25,7 @@
                   <Label layoutX="298.0" layoutY="66.0" prefHeight="17.0" prefWidth="65.0" text="Personal ID:" />
                   <TextField fx:id="name_textField" layoutX="104.0" layoutY="64.0" promptText="John Doe" />
                   <TextField fx:id="pNbr_textField" layoutX="369.0" layoutY="64.0" promptText="yymmdd" />
+                  <Button fx:id="close_menu" layoutX="635.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleCloseButtonAction" prefHeight="25.0" prefWidth="53.0" style="-fx-border-radius: 1; -fx-background-color: pink;" text="Exit" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="343.0" prefWidth="1001.0" styleClass="\@DarkTheme">
