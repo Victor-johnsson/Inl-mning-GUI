@@ -141,7 +141,7 @@ public class Controller {
 				String allAccount = "";
 
 				for (Account tmpAccount : personRegister.findPerson(pNbr).getAccounts().values()) { //gör en sträng av alla konton som en person äger, med kontonummer och balance.
-					allAccount += "Account: " + tmpAccount.getAccountNbr() + " has balance: " + tmpAccount.getBalance() + "\n";
+					allAccount += "Account: '" + tmpAccount.getAccountNbr() + "' has balance: " + tmpAccount.getBalance() + "\n";
 				}
 
 				mainTxtArea.setText(personName + "'s accounts: " + "\n" + allAccount + "Total balance: " + personRegister.findPerson(pNbr).totBalance());
