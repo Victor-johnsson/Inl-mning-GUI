@@ -32,13 +32,13 @@ public class Controller {
 
 
 	public Controller() {
-		HashMap<String, Person> register = new HashMap<>();
-		personRegister.setPersonHashMap(register);
-		this.allAccount = new HashMap<>();
+		HashMap<String, Person> register = new HashMap<>(); //hashmap för personregistret.
+		personRegister.setPersonRegisterHashMap(register);//sätter hashmapen 'register' till personregistret.
+		this.allAccount = new HashMap<>(); //en accountHashmap som sparar alla konton, för att inte få dubletter av konton.
 	}
 
 	@FXML
-	public void handleCloseButtonAction(ActionEvent event) {
+	public void handleCloseButtonAction(ActionEvent event) { //stänger fönstret när man klickar exit, här hade man kunnat lägga till om något ska sparas i ett dokument eller liknande.
 		Stage stage = (Stage) close_menu.getScene().getWindow();
 		stage.close();
 	}
@@ -73,9 +73,8 @@ public class Controller {
 		/* Testar så att inga nödvändiga fält är tomma.
 		  Ifall de är tomma kommer metoden att avbrytas och skriva ut ett meddelande som användaren kan se!
 		  Ifall allt gått rätt till skapas ett nytt konto som får en ägare, som läggs in i personens lista av konton,
-		  samt läggs in i en lista över alla konton som finns för att inte kunna skapa dubbletter av konton.
+		  samt läggs in i en lista över alla konton som finns för att inte kunna skapa dubletter av konton.
 
-		  Även om detta skulle kunna vara lugnt då ett konto endast går att komma åt från en person tolkade vi det som att ett konto endast kan tillhöra en person!
 		 */
 		try {
 			if (pNbr.isEmpty() || accountNbr.isEmpty()) {
@@ -90,6 +89,7 @@ public class Controller {
 				tmpAccount.setOwner(personRegister.findPerson(pNbr));
 				personRegister.findPerson(pNbr).addAccount(tmpAccount);
 				allAccount.put(tmpAccount.getAccountNbr(), tmpAccount);
+
 				mainTxtArea.setText("Account: " + "'" + personRegister.findAccount(pNbr, accountNbr).getAccountNbr() + "'" +
 						" was added to: " + personRegister.findAccount(pNbr, accountNbr).getOwner().getName() + "'s accounts!");
 			}
@@ -104,7 +104,7 @@ public class Controller {
 		String personalNbr = pNbr_textField.getText();
 		double amount = 0;
 		if (!(amount_textField.getText().isEmpty())) {
-			amount = abs(Double.valueOf(amount_textField.getText()));
+			amount = abs(Double.valueOf(amount_textField.getText())); //Foolproofar ifall man man skulle skriva in ett negativt nummer när man ska sätta in/ ta ut pengar.
 		}
 		try {
 			if (accountNbr.isEmpty() || personalNbr.isEmpty() || amount_textField.getText().isEmpty()) {
@@ -139,9 +139,11 @@ public class Controller {
 			} else {
 				String personName = personRegister.findPerson(pNbr).getName();
 				String allAccount = "";
-				for (Account tmpAccount : personRegister.findPerson(pNbr).getAccounts().values()) {
+
+				for (Account tmpAccount : personRegister.findPerson(pNbr).getAccounts().values()) { //gör en sträng av alla konton som en person äger, med kontonummer och balance.
 					allAccount += "Account: " + tmpAccount.getAccountNbr() + " has balance: " + tmpAccount.getBalance() + "\n";
 				}
+
 				mainTxtArea.setText(personName + "'s accounts: " + "\n" + allAccount + "Total balance: " + personRegister.findPerson(pNbr).totBalance());
 			}
 		} catch (Exception e1) {
@@ -158,7 +160,7 @@ public class Controller {
 				mainTxtArea.setText("Could not find a person with this personal ID!");
 			} else {
 				Person tmp = personRegister.findPerson(pNbr);
-				for (Account a : tmp.getAccounts().values()) {
+				for (Account a : tmp.getAccounts().values()) {//tar bort kontona från alla konton listan, så att nya konton kan skapas med dessa nummer.
 					allAccount.remove(a.getAccountNbr(), a);
 				}
 				personRegister.removePerson(pNbr);

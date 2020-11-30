@@ -9,7 +9,7 @@ public class PersonRegister {
 		return personHashMap;
 	}
 
-	public void setPersonHashMap(HashMap<String, Person> personHashMap) {
+	public void setPersonRegisterHashMap(HashMap<String, Person> personHashMap) {
 		this.personHashMap = personHashMap;
 	}
 
