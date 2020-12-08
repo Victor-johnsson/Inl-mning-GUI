@@ -104,7 +104,7 @@ public class Controller {
 		String personalNbr = pNbr_textField.getText();
 		double amount = 0;
 		if (!(amount_textField.getText().isEmpty())) {
-			amount = abs(Double.valueOf(amount_textField.getText())); //Foolproofar ifall man man skulle skriva in ett negativt nummer när man ska sätta in/ ta ut pengar.
+			amount = abs(Double.parseDouble(amount_textField.getText())); //Foolproofar ifall man man skulle skriva in ett negativt nummer när man ska sätta in/ ta ut pengar.
 		}
 		try {
 			if (accountNbr.isEmpty() || personalNbr.isEmpty() || amount_textField.getText().isEmpty()) {
